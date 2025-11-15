@@ -1,26 +1,41 @@
-//pwd = ek2fj3twO5j505Bs
-//mongodb+srv://rbxbera220:<db_password>@financetrack.vyym4vr.mongodb.net/
 import express, { Express } from "express";
 import mongoose from "mongoose";
-import financialRecordRouter from "./routes/financial-records";
 import cors from "cors";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();               
+dotenv.config({ path: '.env.local' });  // Optional: local override
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-const mongoURI: string =
-  "mongodb+srv://rbxbera220:ek2fj3twO5j505Bs@financetrack.vyym4vr.mongodb.net/";
+// Load MongoDB URI
+const mongoURI = process.env.MONGO_URL || process.env.mongoURL;
 
+if (!mongoURI) {
+  console.error("❌ MongoDB URI is missing. Please add MONGO_URL to your .env file.");
+  process.exit(1);
+}
+
+// Connect to MongoDB
 mongoose
   .connect(mongoURI)
-  .then(() => console.log("CONNECTED TO MONGODB!"))
-  .catch((err) => console.error("Failed to Connect to MongoDB:", err));
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err);
+    process.exit(1);
+  });
 
+// Routes
+import financialRecordRouter from "./routes/financial-records";
 app.use("/financial-records", financialRecordRouter);
 
+// Start server
 app.listen(port, () => {
-  console.log(`Server Running on Port ${port}`);
+  console.log(`🚀 Server running on port ${port}`);
 });
