@@ -1,5 +1,6 @@
 import { useUser } from "@clerk/clerk-react";
 import { createContext, useContext, useEffect,  useState } from "react";
+import API_URL from '../lib/api'
 
 export interface FinancialRecord {
   _id?: string;
@@ -33,7 +34,7 @@ export const FinancialRecordsProvider = ({
   const fetchRecords = async () => {
     if (!user) return;
     const response = await fetch(
-      `http://localhost:3001/financial-records/getAllByUserID/${user.id}`
+      `${API_URL}/financial-records/getAllByUserID/${user.id}`
     );
 
     if (response.ok) {

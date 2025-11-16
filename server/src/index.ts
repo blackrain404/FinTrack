@@ -12,7 +12,10 @@ const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['https://fin-track-kappa-tawny.vercel.app/', 'http://localhost:5173/'],
+  credentials: true
+}));
 
 // Load MongoDB URI
 const mongoURI = process.env.MONGO_URL || process.env.mongoURL;
