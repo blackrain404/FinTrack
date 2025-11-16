@@ -13,7 +13,7 @@ const port = process.env.PORT || 3001;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: ['https://fin-track-kappa-tawny.vercel.app/', 'http://localhost:5173/'],
+  origin: ['https://fin-track-eight-taupe.vercel.app/', 'http://localhost:5173/'],
   credentials: true
 }));
 
